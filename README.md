@@ -36,7 +36,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface.
-![](/apgb_converter/graphics/visual/editor.png)
+![](/graphics/visual/editor.png)
     - The dynamic image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
     - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/recreation/limited_color_img_encoder) to encode your image into a suitable format (with `.lci` extension). 
 
@@ -55,7 +55,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
         - only supports 4, 8, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
-![](/apgb_converter/graphics/visual/convert.png)
+![](/graphics/visual/convert.png)
 
 ## Format
 - 56 bytes

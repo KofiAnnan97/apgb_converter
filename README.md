@@ -1,5 +1,5 @@
 # APGB Converter
-A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket or BGB Emulator.
+A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket.
 
 ## Overview
 - [Quick Start](#quick-start)
@@ -35,19 +35,19 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 3. Run application executable
 
 ## Functionality
-- **Editor** := Create a pal file (hex-based) for Analogue Pocket using a grahical interface.
+- **Editor** := Create a pal file (hex-based) for Analogue Pocket using a graphical interface.
 ![](/graphics/visual/editor.png)
-    - The dynamic image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
-    - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/recreation/limited_color_img_encoder) to encode your image into a suitable format (with `.lci` extension). 
+    - The dynamic palette image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
+    - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/recreation/limited_color_img_encoder) to encode your image into a suitable format (with the `.lci` extension). 
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
     - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)
     - CSV file structure:
        ```
-       BG, 0x000000, 0x52528C, 0x8C8CDE, 0xFFFFFF
-       OBJ0, 0x000000, 0x944A4A, 0xFF8484, 0xFFFFFF
-       OBJ1, 0x000000, 0x843100, 0xFFAD63, 0xFFFFFF
-       WINDOW, 0x000000, 0x555555, 0xAAAAAA, 0xFFFFFF
+       BG, 0xE2D9E4, 0x6C9A9A, 0x52675D, 0x37403B
+       OBJ0, 0xF3C893, 0xE5987D, 0xCB5E5C, 0x72334C
+       OBJ1, 0xC0A5A9, 0xBF7D85, 0x804D53, 0x403038
+       WINDOW, 0x7C8FB2, 0x$C5274, 0x2E334D, 0x1F2025
        ```
        - The order is not strict as long as the keyword is first
        - 24-bit colors can have a leading `0x`, `#`, or nothing

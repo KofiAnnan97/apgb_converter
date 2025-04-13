@@ -11,6 +11,9 @@ Future work for this project.
 
 ## Features
 - Add support for GIMP GPL files and Hex (text) files (for both importing and converting)
+- Make the application scale dynamically (along with dthe ynamic palette image viewer)
+- Add the ability to reverse the order of a palette or all palettes
+- Add the ability to populate all palettes and their intensities with BG palette intensities
 
 ## Optimizations
 - Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
@@ -19,4 +22,5 @@ Future work for this project.
 ## Miscellaneous
 - Upload more sample images for testing GB palettes dynamically
 - Test application in Windows
+- Add disclaimer that the colors used in this tool may not be fully representative of what the Analogue Pocket will show
 

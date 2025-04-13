@@ -38,7 +38,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a graphical interface.
 ![](/graphics/visual/editor.png)
     - The dynamic palette image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
-    - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/recreation/limited_color_img_encoder) to encode your image into a suitable format (with the `.lci` extension). 
+    - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) to encode your image into a suitable format (with the `.lci` extension). 
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
     - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>730</width>
+    <width>769</width>
     <height>648</height>
    </rect>
   </property>
@@ -15,17 +15,20 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QTabWidget" name="tabs">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>731</width>
+      <width>770</width>
       <height>621</height>
      </rect>
     </property>
     <property name="maximumSize">
      <size>
-      <width>731</width>
+      <width>770</width>
       <height>621</height>
      </size>
     </property>
@@ -39,7 +42,7 @@
      <widget class="QPushButton" name="btn_import">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>290</x>
         <y>540</y>
         <width>88</width>
         <height>25</height>
@@ -52,14 +55,14 @@
      <widget class="QLabel" name="lbl_obj0">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>390</y>
-        <width>61</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>OBJ0    :</string>
+       <string>OBJ0         :</string>
       </property>
      </widget>
      <widget class="QTextEdit" name="txt_window_2">
@@ -206,7 +209,7 @@
      <widget class="QPushButton" name="btn_save">
       <property name="geometry">
        <rect>
-        <x>380</x>
+        <x>430</x>
         <y>540</y>
         <width>101</width>
         <height>25</height>
@@ -229,20 +232,20 @@
      <widget class="QLabel" name="lbl_window">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>470</y>
-        <width>61</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>Window:</string>
+       <string>WINDOW :</string>
       </property>
      </widget>
      <widget class="QLabel" name="lbl_editor_tip">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>250</x>
         <y>320</y>
         <width>291</width>
         <height>20</height>
@@ -357,14 +360,14 @@
      <widget class="QLabel" name="lbl_obj1">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>430</y>
-        <width>61</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>OBJ1    :</string>
+       <string>OBJ1         :</string>
       </property>
      </widget>
      <widget class="QPushButton" name="btn_window_0">
@@ -498,20 +501,20 @@
      <widget class="QLabel" name="lbl_bg">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>20</x>
         <y>350</y>
-        <width>61</width>
+        <width>81</width>
         <height>31</height>
        </rect>
       </property>
       <property name="text">
-       <string>BG         :</string>
+       <string>BG              :</string>
       </property>
      </widget>
      <widget class="QGraphicsView" name="view_img">
       <property name="geometry">
        <rect>
-        <x>200</x>
+        <x>230</x>
         <y>20</y>
         <width>322</width>
         <height>290</height>
@@ -541,11 +544,14 @@
      <widget class="QPushButton" name="btn_img_next">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>170</y>
+        <x>570</x>
+        <y>160</y>
         <width>31</width>
         <height>25</height>
        </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Advance to next image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
        <string>|&gt;</string>
@@ -554,14 +560,113 @@
      <widget class="QPushButton" name="btn_img_prev">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>170</y>
+        <x>180</x>
+        <y>160</y>
         <width>31</width>
         <height>25</height>
        </rect>
       </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go back to previous image.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
       <property name="text">
        <string>&lt;|</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_flip_window">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>470</y>
+        <width>31</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flip WINDOW intensities.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;|&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_flip_obj0">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>390</y>
+        <width>31</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flip OBJ0 intensities.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;|&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_flip_obj1">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>430</y>
+        <width>31</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flip OBJ1 intensities.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;|&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_flip_bg">
+      <property name="geometry">
+       <rect>
+        <x>720</x>
+        <y>350</y>
+        <width>31</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flip BG intensities.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>&lt;|&gt;</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_flip_all">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>310</y>
+        <width>81</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Flip all intensities for all palettes.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Flip All</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_populate_all">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>310</y>
+        <width>101</width>
+        <height>25</height>
+       </rect>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Populate all intensities for each palette based on BG intensities. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>Populate All</string>
       </property>
      </widget>
     </widget>

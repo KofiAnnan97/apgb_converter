@@ -484,3 +484,82 @@ void MainWindow::on_btn_convert_save_clicked()
     else QMessageBox::critical(this, "File Error", "No source file was given.");
 }
 
+
+void MainWindow::on_btn_flip_bg_clicked()
+{
+    QString temp = ui->txt_bg_0->toPlainText();
+    ui->txt_bg_0->setText(ui->txt_bg_3->toPlainText());
+    ui->txt_bg_3->setText(temp);
+    temp = ui->txt_bg_1->toPlainText();
+    ui->txt_bg_1->setText(ui->txt_bg_2->toPlainText());
+    ui->txt_bg_2->setText(temp);
+}
+
+
+void MainWindow::on_btn_flip_obj0_clicked()
+{
+    QString temp = ui->txt_obj0_0->toPlainText();
+    ui->txt_obj0_0->setText(ui->txt_obj0_3->toPlainText());
+    ui->txt_obj0_3->setText(temp);
+    temp = ui->txt_obj0_1->toPlainText();
+    ui->txt_obj0_1->setText(ui->txt_obj0_2->toPlainText());
+    ui->txt_obj0_2->setText(temp);
+}
+
+
+void MainWindow::on_btn_flip_obj1_clicked()
+{
+    QString temp = ui->txt_obj1_0->toPlainText();
+    ui->txt_obj1_0->setText(ui->txt_obj1_3->toPlainText());
+    ui->txt_obj1_3->setText(temp);
+    temp = ui->txt_obj1_1->toPlainText();
+    ui->txt_obj1_1->setText(ui->txt_obj1_2->toPlainText());
+    ui->txt_obj1_2->setText(temp);
+}
+
+
+void MainWindow::on_btn_flip_window_clicked()
+{
+    QString temp = ui->txt_window_0->toPlainText();
+    ui->txt_window_0->setText(ui->txt_window_3->toPlainText());
+    ui->txt_window_3->setText(temp);
+    temp = ui->txt_window_1->toPlainText();
+    ui->txt_window_1->setText(ui->txt_window_2->toPlainText());
+    ui->txt_window_2->setText(temp);
+}
+
+
+void MainWindow::on_btn_flip_all_clicked()
+{
+    this->on_btn_flip_bg_clicked();
+    this->on_btn_flip_obj0_clicked();
+    this->on_btn_flip_obj1_clicked();
+    this->on_btn_flip_window_clicked();
+}
+
+
+void MainWindow::on_btn_populate_all_clicked()
+{
+    QString val0 = ui->txt_bg_0->toPlainText();
+    QString val1 = ui->txt_bg_1->toPlainText();
+    QString val2 = ui->txt_bg_2->toPlainText();
+    QString val3 = ui->txt_bg_3->toPlainText();
+    if(QColor(val0).isValid() && QColor(val1).isValid() &&
+       QColor(val2).isValid() && QColor(val3).isValid()){
+        ui->txt_obj0_0->setText(val0);
+        ui->txt_obj0_1->setText(val1);
+        ui->txt_obj0_2->setText(val2);
+        ui->txt_obj0_3->setText(val3);
+        ui->txt_obj1_0->setText(val0);
+        ui->txt_obj1_1->setText(val1);
+        ui->txt_obj1_2->setText(val2);
+        ui->txt_obj1_3->setText(val3);
+        ui->txt_window_0->setText(val0);
+        ui->txt_window_1->setText(val1);
+        ui->txt_window_2->setText(val2);
+        ui->txt_window_3->setText(val3);
+    }
+    else QMessageBox::critical(this, "Populate All Error", "Make sure all intensities for BG are correct");
+
+}
+

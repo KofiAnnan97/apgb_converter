@@ -94,9 +94,19 @@ private slots:
     void on_btn_get_save_clicked();
     void on_btn_convert_save_clicked();
 
+    // Traverse image viewer
     void on_btn_img_next_clicked();
-
     void on_btn_img_prev_clicked();
+
+    // Flip palettes
+    void on_btn_flip_bg_clicked();
+    void on_btn_flip_obj0_clicked();
+    void on_btn_flip_obj1_clicked();
+    void on_btn_flip_window_clicked();
+    void on_btn_flip_all_clicked();
+
+    // Populate intensities based on BG
+    void on_btn_populate_all_clicked();
 
 private:
     Ui::MainWindow *ui;

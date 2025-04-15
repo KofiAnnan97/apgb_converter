@@ -22,7 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialize image
     // Find a more clever way of retrieving this file from a folder
     QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
-                                         + ".." + QDir::separator() + ".." + QDir::separator() 
+                                         + ".." + QDir::separator() + ".." + QDir::separator()
                                          + "graphics" + QDir::separator() + "image_view");
     if(!QDir(imgDirPath).exists()){
         QMessageBox::critical(this, "Image Error", "Could not find image_view/ directory.");
@@ -43,9 +43,11 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
-QString MainWindow::gethexColor(){
-    QColor color = QColorDialog::getColor(Qt::white, this, tr("Select Color"));
-    QString hexColor = color.name();
+QString MainWindow::getHexColor(QString prevColorName){
+    QColor color = QColorDialog::getColor(Qt::black, this, tr("Select Color"));
+    QString hexColor;
+    if(color.isValid()) hexColor = color.name();
+    else hexColor = prevColorName;
     return hexColor;
 }
 
@@ -195,7 +197,10 @@ void MainWindow::on_btn_save_clicked()
 void MainWindow::update_image_view(int direction = 0){
     vector<QString> temp = this->getChosenPalettes();
     this->imgImporter.changeFile(direction, image, temp);
-    scene->addPixmap(QPixmap::fromImage(*image));
+    QPixmap imgView = QPixmap::fromImage(*image).scaled(ui->view_img->width(),
+                                                        ui->view_img->height(),
+                                                        Qt::KeepAspectRatio);
+    this->scene->addPixmap(imgView);
 }
 
 void MainWindow::on_btn_img_prev_clicked()
@@ -210,25 +215,29 @@ void MainWindow::on_btn_img_next_clicked()
 
 void MainWindow::on_btn_bg_0_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_bg_0->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_bg_0->setText(colorData);
 }
 
 void MainWindow::on_btn_bg_1_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_bg_1->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_bg_1->setText(colorData);
 }
 
 void MainWindow::on_btn_bg_2_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_bg_2->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_bg_2->setText(colorData);
 }
 
 void MainWindow::on_btn_bg_3_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_bg_3->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_bg_3->setText(colorData);
 }
 
@@ -266,25 +275,29 @@ void MainWindow::on_txt_bg_3_textChanged()
 
 void MainWindow::on_btn_obj0_0_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj0_0->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj0_0->setText(colorData);
 }
 
 void MainWindow::on_btn_obj0_1_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj0_1->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj0_1->setText(colorData);
 }
 
 void MainWindow::on_btn_obj0_2_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj0_2->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj0_2->setText(colorData);
 }
 
 void MainWindow::on_btn_obj0_3_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj0_3->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj0_3->setText(colorData);
 }
 
@@ -322,25 +335,29 @@ void MainWindow::on_txt_obj0_3_textChanged()
 
 void MainWindow::on_btn_obj1_0_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj1_0->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj1_0->setText(colorData);
 }
 
 void MainWindow::on_btn_obj1_1_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj1_1->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj1_1->setText(colorData);
 }
 
 void MainWindow::on_btn_obj1_2_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj1_2->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj1_2->setText(colorData);
 }
 
 void MainWindow::on_btn_obj1_3_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_obj1_3->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_obj1_3->setText(colorData);
 }
 
@@ -378,25 +395,29 @@ void MainWindow::on_txt_obj1_3_textChanged()
 
 void MainWindow::on_btn_window_0_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_window_0->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_window_0->setText(colorData);
 }
 
 void MainWindow::on_btn_window_1_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_window_1->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_window_1->setText(colorData);
 }
 
 void MainWindow::on_btn_window_2_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_window_2->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_window_2->setText(colorData);
 }
 
 void MainWindow::on_btn_window_3_clicked()
 {
-    QString colorData = this->gethexColor();
+    QString prevColorName = ui->txt_window_3->toPlainText();
+    QString colorData = this->getHexColor(prevColorName);
     ui->txt_window_3->setText(colorData);
 }
 

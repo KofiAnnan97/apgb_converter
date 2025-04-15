@@ -25,7 +25,7 @@ public:
     int getIdxFromHexChar(char hexChar);
     void decodeImageTxt(string filename, QImage *image, vector<QString> palettes);
 
-    int width, height, multiplier, fileIdx;
+    int width, height, fileIdx;
     QDir imgDir;
     QColor emptyColor = Qt::black;
 };

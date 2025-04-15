@@ -9,7 +9,6 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QPixmap>
-#include <QColor>
 #include <QImage>
 #include <QString>
 #include <QDebug>
@@ -39,7 +38,7 @@ public:
     ~MainWindow();
 
     // Helpper Functions
-    QString gethexColor();
+    QString getHexColor(QString prevColorName);
     vector<QString> getChosenPalettes();
     void update_image_view(int direction);
 

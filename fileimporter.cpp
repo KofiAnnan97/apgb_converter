@@ -70,7 +70,71 @@ bool FileImporter::isAPGBFormat(string filename){
     return isFormat;
 }
 
-APGB_Palette FileImporter::importPaletteFromCSV(string filename){
+APGB_Palette FileImporter::assignPalettesByColorNum(vector<QString> colorVals){
+    APGB_Palette temp;
+    temp.bg = new string[4];
+    temp.obj0 = new string[4];
+    temp.obj1 = new string[4];
+    temp.window = new string[4];
+    if(colorVals.size() == 4){
+        temp.bg[0] = colorVals[0].toStdString();
+        temp.bg[1] = colorVals[1].toStdString();
+        temp.bg[2] = colorVals[2].toStdString();
+        temp.bg[3] = colorVals[3].toStdString();
+        temp.obj0[0] = colorVals[0].toStdString();
+        temp.obj0[1] = colorVals[1].toStdString();
+        temp.obj0[2] = colorVals[2].toStdString();
+        temp.obj0[3] = colorVals[3].toStdString();
+        temp.obj1[0] = colorVals[0].toStdString();
+        temp.obj1[1] = colorVals[1].toStdString();
+        temp.obj1[2] = colorVals[2].toStdString();
+        temp.obj1[3] = colorVals[3].toStdString();
+        temp.window[0] = colorVals[0].toStdString();
+        temp.window[1] = colorVals[1].toStdString();
+        temp.window[2] = colorVals[2].toStdString();
+        temp.window[3] = colorVals[3].toStdString();
+    }
+    else if(colorVals.size() == 8){
+        temp.bg[0] = colorVals[0].toStdString();
+        temp.bg[1] = colorVals[1].toStdString();
+        temp.bg[2] = colorVals[2].toStdString();
+        temp.bg[3] = colorVals[3].toStdString();
+        temp.obj0[0] = colorVals[4].toStdString();
+        temp.obj0[1] = colorVals[5].toStdString();
+        temp.obj0[2] = colorVals[6].toStdString();
+        temp.obj0[3] = colorVals[7].toStdString();
+        temp.obj1[0] = colorVals[4].toStdString();
+        temp.obj1[1] = colorVals[5].toStdString();
+        temp.obj1[2] = colorVals[6].toStdString();
+        temp.obj1[3] = colorVals[7].toStdString();
+        temp.window[0] = colorVals[0].toStdString();
+        temp.window[1] = colorVals[1].toStdString();
+        temp.window[2] = colorVals[2].toStdString();
+        temp.window[3] = colorVals[3].toStdString();
+    }
+    else if(colorVals.size() == 16){
+        temp.bg[0] = colorVals[0].toStdString();
+        temp.bg[1] = colorVals[1].toStdString();
+        temp.bg[2] = colorVals[2].toStdString();
+        temp.bg[3] = colorVals[3].toStdString();
+        temp.obj0[0] = colorVals[4].toStdString();
+        temp.obj0[1] = colorVals[5].toStdString();
+        temp.obj0[2] = colorVals[6].toStdString();
+        temp.obj0[3] = colorVals[7].toStdString();
+        temp.obj1[0] = colorVals[8].toStdString();
+        temp.obj1[1] = colorVals[9].toStdString();
+        temp.obj1[2] = colorVals[10].toStdString();
+        temp.obj1[3] = colorVals[11].toStdString();
+        temp.window[0] = colorVals[12].toStdString();
+        temp.window[1] = colorVals[13].toStdString();
+        temp.window[2] = colorVals[14].toStdString();
+        temp.window[3] = colorVals[15].toStdString();
+    }
+    return temp;
+}
+
+
+APGB_Palette FileImporter::importPalettesFromCSV(string filename){
     APGB_Palette ap;
     ap.bg = new string[4];
     ap.obj0 = new string[4];
@@ -110,7 +174,7 @@ APGB_Palette FileImporter::importPaletteFromCSV(string filename){
     return ap;
 }
 
-APGB_Palette FileImporter::importPaletteFromAPGB(string filename){
+APGB_Palette FileImporter::importPalettesFromAPGB(string filename){
     APGB_Palette ap;
     ap.bg = new string[4];
     ap.obj0 = new string[4];
@@ -150,98 +214,97 @@ APGB_Palette FileImporter::importPaletteFromAPGB(string filename){
     return ap;
 }
 
-APGB_Palette FileImporter::importPaletteJASC(string filename){
+APGB_Palette FileImporter::importPalettesJASC(string filename){
     APGB_Palette ap;
-    ap.bg = new string[4];
-    ap.obj0 = new string[4];
-    ap.obj1 = new string[4];
-    ap.window = new string[4];
     vector<QString> colorVals;
     ifstream jasc;
     string jascId, jascVersion,line;
-    unsigned long numOfPalettes;
+    unsigned long numOfColors;
     jasc.open(filename);
     if(jasc.is_open()){
         getline(jasc, jascId);
         getline(jasc, jascVersion);
         getline(jasc, line);
-        numOfPalettes = stoi(line);
-        if(numOfPalettes != 4 && numOfPalettes != 8 && numOfPalettes != 16){
-         //"This script only supports 4, 8 or 16 color palettes for the JASC PAL format.";
+        numOfColors = stoi(line);
+        while(getline(jasc, line)){
+            line.erase(line.size()-1, 1);
+            stringstream ss(line);
+            string val;
+            getline(ss, val, ' ');
+            int r = stoi(val);
+            getline(ss, val, ' ');
+            int g = stoi(val);
+            getline(ss, val, ' ');
+            int b = stoi(val);
+            colorVals.push_back(QColor(r, g, b).name());
         }
-        else{
-            while(getline(jasc, line)){
-                line.erase(line.size()-1, 1);
-                stringstream ss(line);
-                string val;
-                getline(ss, val, ' ');
-                int r = stoi(val);
-                getline(ss, val, ' ');
-                int g = stoi(val);
-                getline(ss, val, ' ');
-                int b = stoi(val);
-                colorVals.push_back(QColor(r, g, b).name());
-            }
-            if(numOfPalettes != colorVals.size()){
-                //qDebug() << "The number of color palettes are configured incorrectly. Please check the file.";
-            }
-            else if(numOfPalettes == 4){
-                ap.bg[0] = colorVals[0].toStdString();
-                ap.bg[1] = colorVals[1].toStdString();
-                ap.bg[2] = colorVals[2].toStdString();
-                ap.bg[3] = colorVals[3].toStdString();
-                ap.obj0[0] = colorVals[0].toStdString();
-                ap.obj0[1] = colorVals[1].toStdString();
-                ap.obj0[2] = colorVals[2].toStdString();
-                ap.obj0[3] = colorVals[3].toStdString();
-                ap.obj1[0] = colorVals[0].toStdString();
-                ap.obj1[1] = colorVals[1].toStdString();
-                ap.obj1[2] = colorVals[2].toStdString();
-                ap.obj1[3] = colorVals[3].toStdString();
-                ap.window[0] = colorVals[0].toStdString();
-                ap.window[1] = colorVals[1].toStdString();
-                ap.window[2] = colorVals[2].toStdString();
-                ap.window[3] = colorVals[3].toStdString();
-            }
-            else if(numOfPalettes == 8){
-                ap.bg[0] = colorVals[0].toStdString();
-                ap.bg[1] = colorVals[1].toStdString();
-                ap.bg[2] = colorVals[2].toStdString();
-                ap.bg[3] = colorVals[3].toStdString();
-                ap.obj0[0] = colorVals[4].toStdString();
-                ap.obj0[1] = colorVals[5].toStdString();
-                ap.obj0[2] = colorVals[6].toStdString();
-                ap.obj0[3] = colorVals[7].toStdString();
-                ap.obj1[0] = colorVals[4].toStdString();
-                ap.obj1[1] = colorVals[5].toStdString();
-                ap.obj1[2] = colorVals[6].toStdString();
-                ap.obj1[3] = colorVals[7].toStdString();
-                ap.window[0] = colorVals[0].toStdString();
-                ap.window[1] = colorVals[1].toStdString();
-                ap.window[2] = colorVals[2].toStdString();
-                ap.window[3] = colorVals[3].toStdString();
-            }
-            else if(numOfPalettes == 16){
-                ap.bg[0] = colorVals[0].toStdString();
-                ap.bg[1] = colorVals[1].toStdString();
-                ap.bg[2] = colorVals[2].toStdString();
-                ap.bg[3] = colorVals[3].toStdString();
-                ap.obj0[0] = colorVals[4].toStdString();
-                ap.obj0[1] = colorVals[5].toStdString();
-                ap.obj0[2] = colorVals[6].toStdString();
-                ap.obj0[3] = colorVals[7].toStdString();
-                ap.obj1[0] = colorVals[8].toStdString();
-                ap.obj1[1] = colorVals[9].toStdString();
-                ap.obj1[2] = colorVals[10].toStdString();
-                ap.obj1[3] = colorVals[11].toStdString();
-                ap.window[0] = colorVals[12].toStdString();
-                ap.window[1] = colorVals[13].toStdString();
-                ap.window[2] = colorVals[14].toStdString();
-                ap.window[3] = colorVals[15].toStdString();
-            }
+        if(numOfColors == colorVals.size() &&
+            (numOfColors == 4 || numOfColors == 8 || numOfColors == 16)){
+            ap = this->assignPalettesByColorNum(colorVals);
         }
         jasc.close();
     }
     //else qDebug() << "Failed to find file: " << filename;
+    return ap;
+}
+
+APGB_Palette FileImporter::importPalettesGPLv2(string filename){
+    APGB_Palette ap;
+    vector<QString> colorVals;
+    ifstream gpl;
+    string line, id, name, description;
+    int numOfColors;
+    gpl.open(filename);
+    if(gpl.is_open()){
+        getline(gpl, line);
+        id = line;
+        getline(gpl, line);
+        name = line.erase(0, 14);
+        while(getline(gpl, line)){
+            string colorStr = line.substr(1, 6);
+            if(strcmp(colorStr.c_str(), "Colors") == 0) break;
+            else description += line;
+        }
+        numOfColors = stoi(line.erase(0, 8));
+        while(getline(gpl, line)){
+            stringstream ss(line);
+            //qDebug() << line;
+            string val;
+            getline(ss, val, '\t');
+            int r = stoi(val);
+            getline(ss, val, '\t');
+            int g = stoi(val);
+            getline(ss, val, '\t');
+            int b = stoi(val);
+            //qDebug() << "RGB: " << r << ", " << g << ", " << b;
+            colorVals.push_back(QColor(r, g, b).name());
+        }
+        if(numOfColors == colorVals.size() &&
+          (numOfColors == 4 || numOfColors == 8 || numOfColors == 16)){
+            ap = this->assignPalettesByColorNum(colorVals);
+        }
+        gpl.close();
+    }
+    return ap;
+}
+
+APGB_Palette FileImporter::importPalettesHEXTxt(string filename){
+    APGB_Palette ap;
+    vector<QString> colorVals;
+    ifstream hext;
+    string line;
+    hext.open(filename);
+    if(hext.is_open()){
+        while(getline(hext, line)){
+            if(line.size() > 6) line = line.erase(6, line.size()-6);
+            QString colorName = QString::fromStdString('#'+line);
+            if(QColor(colorName).isValid()) colorVals.push_back(colorName);
+            else colorVals.push_back("");
+        }
+        if(colorVals.size() == 4 || colorVals.size() == 8 || colorVals.size() == 16){
+            ap = this->assignPalettesByColorNum(colorVals);
+        }
+        hext.close();
+    }
     return ap;
 }

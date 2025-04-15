@@ -23,9 +23,13 @@ public:
     bool isAPGBFormat(string filename);
 
     // Import functions
-    APGB_Palette importPaletteFromCSV(string filename);
-    APGB_Palette importPaletteFromAPGB(string filename);
-    APGB_Palette importPaletteJASC(string filename);
+    APGB_Palette importPalettesFromCSV(string filename);
+    APGB_Palette importPalettesFromAPGB(string filename);
+    APGB_Palette assignPalettesByColorNum(vector<QString> colors);
+    APGB_Palette importPalettesJASC(string filename);
+    APGB_Palette importPalettesGPLv2(string filename);
+    APGB_Palette importPalettesHEXTxt(string filename);
+
 
     // Variables
     QString black, dark, light, white;

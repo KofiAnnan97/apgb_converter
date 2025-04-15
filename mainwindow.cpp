@@ -93,14 +93,16 @@ void MainWindow::on_btn_import_clicked(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
     APGB_Palette p;
     string fn = filename.toStdString();
-    if(filename.endsWith(".csv"))                 p = this->fImporter.importPaletteFromCSV(fn);
+    if(filename.endsWith(".csv"))                 p = this->fImporter.importPalettesFromCSV(fn);
     else if(filename.endsWith(".pal")){
-        if(this->fImporter.isJASCFormat(fn))      p = this->fImporter.importPaletteJASC(fn);
-        else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPaletteFromAPGB(fn);
+        if(this->fImporter.isJASCFormat(fn))      p = this->fImporter.importPalettesJASC(fn);
+        else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPalettesFromAPGB(fn);
         else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
     }
+    else if(filename.endsWith(".gpl"))            p = this->fImporter.importPalettesGPLv2(fn);
+    else if(filename.endsWith(".hex"))            p = this->fImporter.importPalettesHEXTxt(fn);
     else if(filename.isEmpty()) {}
-    else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal");
+    else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal\n\t.gpl\n\t.hex");
     bool canPopulate = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
     if(canPopulate == true){
         ui->txt_bg_0->setText(QString::fromStdString(p.bg[0]));
@@ -444,6 +446,8 @@ void MainWindow::on_btn_get_load_clicked()
     else if(loadFilename.endsWith(".pal") && this->fImporter.isJASCFormat(loadFilename.toStdString())){
         ui->r_jasc->click();
     }
+    else if(loadFilename.endsWith(".gpl")) ui->r_gpl->click();
+    else if(loadFilename.endsWith(".hex")) ui->r_hex_txt->click();
     int extensionIdx = loadFilename.lastIndexOf(".");
     ui->txt_convert_save->setText(loadFilename.left(extensionIdx) + "-apgb.pal");
 }
@@ -460,12 +464,19 @@ void MainWindow::on_btn_convert_save_clicked()
     QString loadFile = ui->txt_convert_load->toPlainText();
     QString saveFile = ui->txt_convert_save->toPlainText();
 
+    string lFn = loadFile.toStdString();
     if(!loadFile.isEmpty()){
         if(ui->r_csv->isChecked() && loadFile.endsWith(".csv")){
-            p = this->fImporter.importPaletteFromCSV(loadFile.toStdString());
+            p = this->fImporter.importPalettesFromCSV(lFn);
         }
-        else if(ui->r_jasc->isChecked() && this->fImporter.isJASCFormat(loadFile.toStdString())){
-            p = this->fImporter.importPaletteJASC(loadFile.toStdString());
+        else if(ui->r_jasc->isChecked() && this->fImporter.isJASCFormat(lFn)){
+            p = this->fImporter.importPalettesJASC(lFn);
+        }
+        else if(ui->r_gpl->isChecked() && loadFile.endsWith(".gpl")){
+            p = this->fImporter.importPalettesGPLv2(lFn);
+        }
+        else if(ui->r_hex_txt->isChecked() && loadFile.endsWith(".hex")){
+            p = this->fImporter.importPalettesHEXTxt(lFn);
         }
 
         bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr &&

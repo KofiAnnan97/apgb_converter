@@ -1,6 +1,8 @@
 # APGB Converter
 A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket.
 
+*** **Disclaimer: The colors from this tool will be close but not fully representative of what the Analogue Pocket will show.** ***
+
 ## Overview
 - [Quick Start](#quick-start)
 - [Functionality](#functionality)
@@ -41,7 +43,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
     - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) to encode your image into a suitable format (with the `.lci` extension). 
 
 - **Import** := Found in the Editor tab. Allows for the conversion of data into the appropriate format and provides the ability to update the colors via the graphical interface. 
-    - `Supported file types`: **CSV**, **PAL** (APGB and JASC format)
+    - `Supported file types`: **CSV**, **PAL** (APGB and JASC format), **GPL**, **HEX** (text-based)
     - CSV file structure:
        ```
        BG, 0xE2D9E4, 0x6C9A9A, 0x52675D, 0x37403B
@@ -51,7 +53,18 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
        ```
        - The order is not strict as long as the keyword is first
        - 24-bit colors can have a leading `0x`, `#`, or nothing
-    - JASC format:  The color palettes are applied in a sequential manner for each palette and its respective intentisities as shown [here](#example).
+    
+    - JASC & GPL format:  The color palettes are applied in a sequential manner for each palette and its respective intentisities as shown [here](#example).
+        - only supports 4, 8, or 16 colors
+    - HEX (text-based) file structure
+        ```
+        000000 
+        52528C 
+        8C8CDE 
+        FFFFFF
+        ```
+        - Do not include `#` or `Ox` 
+        - Seperate each color by a new line
         - only supports 4, 8, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
@@ -79,3 +92,4 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 ## Resources
 - [Analogue - Custom Palettes](https://www.analogue.co/developer/docs/custom-palettes)
 - [JASC Palette Format](https://liero.nl/lierohack/docformats/other-jasc.html)
+- [GIMP Palette Format v2](https://developer.gimp.org/core/standards/gpl/)

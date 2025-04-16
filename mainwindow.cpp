@@ -203,6 +203,21 @@ void MainWindow::update_image_view(int direction = 0){
     this->scene->addPixmap(imgView);
 }
 
+void MainWindow::on_cb_dot_matrix_clicked(bool checked){
+    if(checked){
+        this->imgImporter.width *= 2;
+        this->imgImporter.height *= 2;
+        this->imgImporter.step = 2;
+    }
+    else{
+        this->imgImporter.width /= 2;
+        this->imgImporter.height /= 2;
+        this->imgImporter.step = 1;
+    }
+    image = new QImage(this->imgImporter.width, this->imgImporter.height, QImage::Format_RGB666);
+    this->update_image_view(0);
+}
+
 void MainWindow::on_btn_img_prev_clicked()
 {
     this->update_image_view(-1);
@@ -594,4 +609,3 @@ void MainWindow::on_btn_populate_all_clicked()
     else QMessageBox::critical(this, "Populate All Error", "Make sure all intensities for BG are correct");
 
 }
-

@@ -12,7 +12,6 @@ Future work for this project.
 
 ### Features
 - Make the application scale dynamically (along with the dynamic palette image viewer)
-- Implement a dot matrix effect for image for more retro feel
 
 ### Optimizations
 - Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
@@ -24,10 +23,4 @@ Future work for this project.
 
 # Completed 
 The tasks that have been completed for the next release are as follows:
-- Added functionality for reversing the order of a singular palette or all palettes
-- Added functionality for populating all palettes and their intensities based on the BG palette intensities
-- Added support for GIMP GPL v2 files
-- Added support for Hex (text) files
-- Added disclaimer that the colors used in this tool may not be fully representative of what the Analogue Pocket will show
-- Fix color picker resetting to black when user cancels out of image dialog
-- Updated image within the dynamic palette image viewer to dynamically scale
+- Implement a dot matrix filter for image viewer

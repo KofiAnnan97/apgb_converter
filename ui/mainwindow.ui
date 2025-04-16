@@ -42,7 +42,7 @@
      <widget class="QPushButton" name="btn_import">
       <property name="geometry">
        <rect>
-        <x>290</x>
+        <x>260</x>
         <y>540</y>
         <width>88</width>
         <height>25</height>
@@ -209,7 +209,7 @@
      <widget class="QPushButton" name="btn_save">
       <property name="geometry">
        <rect>
-        <x>430</x>
+        <x>410</x>
         <y>540</y>
         <width>101</width>
         <height>25</height>
@@ -514,10 +514,10 @@
      <widget class="QGraphicsView" name="view_img">
       <property name="geometry">
        <rect>
-        <x>230</x>
+        <x>220</x>
         <y>20</y>
-        <width>322</width>
-        <height>290</height>
+        <width>320</width>
+        <height>288</height>
        </rect>
       </property>
       <property name="minimumSize">
@@ -544,7 +544,7 @@
      <widget class="QPushButton" name="btn_img_next">
       <property name="geometry">
        <rect>
-        <x>570</x>
+        <x>550</x>
         <y>160</y>
         <width>31</width>
         <height>25</height>
@@ -667,6 +667,19 @@
       </property>
       <property name="text">
        <string>Populate All</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="cb_dot_matrix">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>20</y>
+        <width>101</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Dot Matrix</string>
       </property>
      </widget>
     </widget>

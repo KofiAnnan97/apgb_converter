@@ -5,6 +5,7 @@
 ImageImporter::ImageImporter() {
     width  = 160;  // GameBoy screen width:  160
     height = 144;  // GameBoy screen height: 144
+    step = 1;
     fileIdx = 0;
 }
 
@@ -50,10 +51,10 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
         getline(decode, type);
         getline(decode, line);
         width = stoi(line);
-        this->width = width;
+        this->width = width*step;
         getline(decode, line);
         height = stoi(line);
-        this->height = height;
+        this->height = height*step;
         getline(decode, line);
         numOfColors = stoi(line);
         vector<QColor> colorIdxs = this->setImageColors(palettes);
@@ -62,7 +63,7 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
             if(image->size().isEmpty()) break;
             else if(row >= this->height) break;
             else if(line.empty()){
-                for(int i = 0; i < this->width-1; i++){
+                for(int i = 0; i < this->width-1; i+=step){
                     image->setPixelColor(i, row, emptyColor);
                 }
                 row++;
@@ -77,18 +78,18 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
                     else{
                         image->setPixelColor(col, row, emptyColor);
                     }
-                    col++;
+                    col+=step;
                 }
-                row++;
+                row+=step;
                 col = 0;
             }
         }
         while(row > 0 && row < this->height){
             qDebug() << "Entered";
-            for(int j = 0; j < this->width-1; j++){
+            for(int j = 0; j < this->width-1; j+=step){
                 image->setPixelColor(j, row, emptyColor);
             }
-            row ++;
+            row +=step;
         }
     }
     else qDebug() << "Could not find file: " + filename;

@@ -93,9 +93,10 @@ private slots:
     void on_btn_get_save_clicked();
     void on_btn_convert_save_clicked();
 
-    // Traverse image viewer
+    // Dynamic Palette Image viewer
     void on_btn_img_next_clicked();
     void on_btn_img_prev_clicked();
+    void on_cb_dot_matrix_clicked(bool checked);
 
     // Flip palettes
     void on_btn_flip_bg_clicked();

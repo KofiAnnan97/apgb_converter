@@ -7,7 +7,6 @@ Future work for this project.
 - [Misc.](#miscellaneous)
 
 ### Bug Fixes
-- Fix issue where some previously created APGB PAL files cannot be imported (can occur on some JASC PAL files as well)
 - When an incorrect color is given the color picker button still shows the previous color (during import)
 
 ### Features
@@ -24,3 +23,5 @@ Future work for this project.
 # Completed 
 The tasks that have been completed for the next release are as follows:
 - Implement a dot matrix filter for image viewer
+- Updated file importer to allow for 12 color palettes
+- Added import error handling & fixed issue with importing APGB files

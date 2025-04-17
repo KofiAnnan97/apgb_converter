@@ -95,16 +95,23 @@ void MainWindow::on_btn_import_clicked(){
     QString filename = QFileDialog::getOpenFileName(this, tr("Import"), tr(""));
     APGB_Palette p;
     string fn = filename.toStdString();
-    if(filename.endsWith(".csv"))                 p = this->fImporter.importPalettesFromCSV(fn);
-    else if(filename.endsWith(".pal")){
-        if(this->fImporter.isJASCFormat(fn))      p = this->fImporter.importPalettesJASC(fn);
-        else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPalettesFromAPGB(fn);
-        else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
+    try{
+
+        if(filename.endsWith(".csv"))                 p = this->fImporter.importPalettesFromCSV(fn);
+        else if(filename.endsWith(".pal")){
+            if(this->fImporter.isJASCFormat(fn))      p = this->fImporter.importPalettesJASC(fn);
+            else if(this->fImporter.isAPGBFormat(fn)) p = this->fImporter.importPalettesFromAPGB(fn);
+            else QMessageBox::critical(this, "Format Error", "There was an issue parsing " + filename);
+        }
+        else if(filename.endsWith(".gpl"))            p = this->fImporter.importPalettesGPLv2(fn);
+        else if(filename.endsWith(".hex"))            p = this->fImporter.importPalettesHEXTxt(fn);
+        else if(filename.isEmpty()) {}
+        else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n  .csv, .pal, .gpl, .hex");
     }
-    else if(filename.endsWith(".gpl"))            p = this->fImporter.importPalettesGPLv2(fn);
-    else if(filename.endsWith(".hex"))            p = this->fImporter.importPalettesHEXTxt(fn);
-    else if(filename.isEmpty()) {}
-    else QMessageBox::critical(this, "File Type Error", filename + " must use one of the following extensions:\n\t.csv\n\t.pal\n\t.gpl\n\t.hex");
+    catch(const std::out_of_range e){
+        QMessageBox::critical(this, "Import Error", "There was an error try to import data \"" + filename
+                                                        + "\" check to make sure the data is correct.");
+    }
     bool canPopulate = p.bg != nullptr && p.obj0 != nullptr && p.obj1 != nullptr && p.window != nullptr;
     if(canPopulate == true){
         ui->txt_bg_0->setText(QString::fromStdString(p.bg[0]));

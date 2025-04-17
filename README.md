@@ -55,7 +55,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
        - 24-bit colors can have a leading `0x`, `#`, or nothing
     
     - JASC & GPL format:  The color palettes are applied in a sequential manner for each palette and its respective intentisities as shown [here](#example).
-        - only supports 4, 8, or 16 colors
+        - only supports 4, 8, 12, or 16 colors
     - HEX (text-based) file structure
         ```
         000000 
@@ -65,7 +65,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
         ```
         - Do not include `#` or `Ox` 
         - Seperate each color by a new line
-        - only supports 4, 8, or 16 colors
+        - only supports 4, 8, 12, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
 ![](/graphics/visual/convert.png)

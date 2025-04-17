@@ -112,6 +112,24 @@ APGB_Palette FileImporter::assignPalettesByColorNum(vector<QString> colorVals){
         temp.window[2] = colorVals[2].toStdString();
         temp.window[3] = colorVals[3].toStdString();
     }
+    else if(colorVals.size() == 12){
+        temp.bg[0] = colorVals[0].toStdString();
+        temp.bg[1] = colorVals[1].toStdString();
+        temp.bg[2] = colorVals[2].toStdString();
+        temp.bg[3] = colorVals[3].toStdString();
+        temp.obj0[0] = colorVals[4].toStdString();
+        temp.obj0[1] = colorVals[5].toStdString();
+        temp.obj0[2] = colorVals[6].toStdString();
+        temp.obj0[3] = colorVals[7].toStdString();
+        temp.obj1[0] = colorVals[8].toStdString();
+        temp.obj1[1] = colorVals[9].toStdString();
+        temp.obj1[2] = colorVals[10].toStdString();
+        temp.obj1[3] = colorVals[11].toStdString();
+        temp.window[0] = colorVals[0].toStdString();
+        temp.window[1] = colorVals[1].toStdString();
+        temp.window[2] = colorVals[2].toStdString();
+        temp.window[3] = colorVals[3].toStdString();
+    }
     else if(colorVals.size() == 16){
         temp.bg[0] = colorVals[0].toStdString();
         temp.bg[1] = colorVals[1].toStdString();
@@ -184,7 +202,7 @@ APGB_Palette FileImporter::importPalettesFromAPGB(string filename){
     pal.open(filename, ios::binary | ios::in);
     if(pal.is_open()){
         string line, word, temp;
-        while(pal >> temp){
+        while(getline(pal, line)){
             stringstream ss;
             ss << std::hex << temp;
             ss >> line;
@@ -239,7 +257,7 @@ APGB_Palette FileImporter::importPalettesJASC(string filename){
             colorVals.push_back(QColor(r, g, b).name());
         }
         if(numOfColors == colorVals.size() &&
-            (numOfColors == 4 || numOfColors == 8 || numOfColors == 16)){
+            (numOfColors == 4 || numOfColors == 8 || numOfColors == 12 || numOfColors == 16)){
             ap = this->assignPalettesByColorNum(colorVals);
         }
         jasc.close();
@@ -280,7 +298,7 @@ APGB_Palette FileImporter::importPalettesGPLv2(string filename){
             colorVals.push_back(QColor(r, g, b).name());
         }
         if(numOfColors == colorVals.size() &&
-          (numOfColors == 4 || numOfColors == 8 || numOfColors == 16)){
+          (numOfColors == 4 || numOfColors == 8 || numOfColors == 12 || numOfColors == 16)){
             ap = this->assignPalettesByColorNum(colorVals);
         }
         gpl.close();
@@ -301,7 +319,8 @@ APGB_Palette FileImporter::importPalettesHEXTxt(string filename){
             if(QColor(colorName).isValid()) colorVals.push_back(colorName);
             else colorVals.push_back("");
         }
-        if(colorVals.size() == 4 || colorVals.size() == 8 || colorVals.size() == 16){
+        int numOfColors = colorVals.size();
+        if(numOfColors == 4 || numOfColors == 8 || numOfColors == 12 || numOfColors == 16){
             ap = this->assignPalettesByColorNum(colorVals);
         }
         hext.close();

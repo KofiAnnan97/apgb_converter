@@ -72,16 +72,7 @@ char* FileSave::APGBFormat(APGB_Palette p, int size){
     return buffer;
 }
 
-APGB_Palette FileSave::getPalette(string *bg, string *obj0, string *obj1, string *window){
-    APGB_Palette pal;
-    pal.bg = bg;
-    pal.obj0 = obj0;
-    pal.obj1 = obj1;
-    pal.window = window;
-    return pal;
-}
-
-void FileSave::savePalette(string filename, APGB_Palette p){
+void FileSave::savePalettes(string filename, APGB_Palette p){
     std::ofstream df(filename, std::ios_base::binary | std::ios_base::out);
     if(df.is_open()){
         char *buffer = this->APGBFormat(p, p.numOfBytes);

@@ -44,6 +44,7 @@ public:
     // Helper Functions
     vector<QString> getChosenPalettes();
     void updateImageView(int direction);
+    bool isValidColorFormat(QString cStr);
 
     // Classes instances
     FileImporter fImporter;
@@ -62,8 +63,8 @@ private slots:
 
     // Converter tab
     void on_btn_convert_reset_clicked();
-    void on_btn_get_load_clicked();
-    void on_btn_get_save_clicked();
+    void on_btn_source_clicked();
+    void on_btn_dest_clicked();
     void on_btn_convert_save_clicked();
 
     // Image Viewer Filters
@@ -71,8 +72,6 @@ private slots:
 
     // Populate intensities based on BG
     void on_btn_populate_all_clicked();
-
-    //void updateSizes(int index);
 
 private:
     Ui::MainWindow *ui;

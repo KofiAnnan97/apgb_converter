@@ -9,10 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    setFixedSize(width(), height());
     setWindowTitle("Analogue Pocket GB Palette Creator");
-
-    //connect(ui->tabs, SIGNAL(currentChanged(int)), this, SLOT(updateSizes(int)));
 
     // Set up image viewer
     scene = new QGraphicsScene(this);
@@ -40,19 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow(){
     delete ui;
 }
-
-/*void MainWindow::updateSizes(int index)
-{
-    for(int i=0;i<ui->tabs->count();i++)
-        if(i!=index)
-            ui->tabs->widget(i)->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-
-    ui->tabs->widget(0)->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    ui->tabs->widget(0)->resize(ui->tabs->widget(0)->minimumSize());
-    ui->tabs->widget(0)->adjustSize();
-    resize(minimumSizeHint());
-    adjustSize();
-}*/
 
 void MainWindow::initializeUIConnects(){
     // Set traversal buttons for image viewer
@@ -130,33 +114,33 @@ void MainWindow::initializeUIConnects(){
     // Set flip palette buttons
     connect(ui->btn_flip_bg, &QPushButton::clicked, this, [=](){
         vector<QTextEdit*> vte = {ui->txt_bg_0, ui->txt_bg_1,
-                                   ui->txt_bg_2, ui->txt_bg_3};
+                                  ui->txt_bg_2, ui->txt_bg_3};
         flipTextEntries(vte);
     });
     connect(ui->btn_flip_obj0, &QPushButton::clicked, this, [=](){
         vector<QTextEdit*> vte = {ui->txt_obj0_0, ui->txt_obj0_1,
-                                   ui->txt_obj0_2, ui->txt_obj0_3};
+                                  ui->txt_obj0_2, ui->txt_obj0_3};
         flipTextEntries(vte);
     });
     connect(ui->btn_flip_obj1, &QPushButton::clicked, this, [=](){
         vector<QTextEdit*> vte = {ui->txt_obj1_0, ui->txt_obj1_1,
-                                   ui->txt_obj1_2, ui->txt_obj1_3};
+                                  ui->txt_obj1_2, ui->txt_obj1_3};
         flipTextEntries(vte);
     });
     connect(ui->btn_flip_window, &QPushButton::clicked, this, [=](){
         vector<QTextEdit*> vte = {ui->txt_window_0, ui->txt_window_1,
-                                   ui->txt_window_2, ui->txt_window_3};
+                                  ui->txt_window_2, ui->txt_window_3};
         flipTextEntries(vte);
     });
     connect(ui->btn_flip_all, &QPushButton::clicked, this, [=](){
         vector<QTextEdit*> vte = {ui->txt_bg_0, ui->txt_bg_1,
-                                   ui->txt_obj0_0, ui->txt_obj0_1,
-                                   ui->txt_obj1_0, ui->txt_obj1_1,
-                                   ui->txt_window_0, ui->txt_window_1,
-                                   ui->txt_window_2, ui->txt_window_3,
-                                   ui->txt_obj1_2, ui->txt_obj1_3,
-                                   ui->txt_obj0_2, ui->txt_obj0_3,
-                                   ui->txt_bg_2, ui->txt_bg_3};
+                                  ui->txt_obj0_0, ui->txt_obj0_1,
+                                  ui->txt_obj1_0, ui->txt_obj1_1,
+                                  ui->txt_window_0, ui->txt_window_1,
+                                  ui->txt_window_2, ui->txt_window_3,
+                                  ui->txt_obj1_2, ui->txt_obj1_3,
+                                  ui->txt_obj0_2, ui->txt_obj0_3,
+                                  ui->txt_bg_2, ui->txt_bg_3};
         flipTextEntries(vte);
     });
 }
@@ -226,7 +210,7 @@ void MainWindow::updateBtnColorFromText(QPushButton *pb, QTextEdit *te){
     if(this->image_initialized == true) this->updateImageView(0);
 }
 
-void MainWindow::flipTextEntries(vector<QTextEdit *> vte) {
+void MainWindow::flipTextEntries(vector<QTextEdit *> vte){
     int startIdx = 0;
     int endIdx = vte.size() - 1;
     while (startIdx < endIdx) {
@@ -277,12 +261,19 @@ void MainWindow::on_btn_import_clicked(){
         ui->txt_window_1->setText(QString::fromStdString(p.window[1]));
         ui->txt_window_2->setText(QString::fromStdString(p.window[2]));
         ui->txt_window_3->setText(QString::fromStdString(p.window[3]));
+        delete[] p.bg;
+        delete[] p.obj0;
+        delete[] p.obj1;
+        delete[] p.window;
     }
 }
 
-void MainWindow::on_btn_save_clicked()
-{
-    QString errorMsg;
+bool MainWindow::isValidColorFormat(QString cStr){
+    return !cStr.isEmpty() && cStr.size() == 7 &&
+           cStr.startsWith("#") && QColor(cStr).isValid();
+}
+
+void MainWindow::on_btn_save_clicked(){
     QString bg_0 = ui->txt_bg_0->toPlainText();
     QString bg_1 = ui->txt_bg_1->toPlainText();
     QString bg_2 = ui->txt_bg_2->toPlainText();
@@ -300,51 +291,55 @@ void MainWindow::on_btn_save_clicked()
     QString window_2 = ui->txt_window_2->toPlainText();
     QString window_3 = ui->txt_window_3->toPlainText();
 
-    if(bg_0.isEmpty()) errorMsg += "bg_0\n";
-    else if(bg_0.startsWith("#")) bg_0.remove(0,1);
-    if(bg_1.isEmpty()) errorMsg += "bg_1\n";
-    else if(bg_1.startsWith("#")) bg_1.remove(0,1);
-    if(bg_2.isEmpty()) errorMsg += "bg_2\n";
-    else if(bg_2.startsWith("#")) bg_2.remove(0,1);
-    if(bg_3.isEmpty()) errorMsg += "bg_3\n";
-    else if(bg_3.startsWith("#")) bg_3.remove(0,1);
-    if(obj0_0.isEmpty()) errorMsg += "obj0_0\n";
-    else if(obj0_0.startsWith("#")) obj0_0.remove(0,1);
-    if(obj0_1.isEmpty()) errorMsg += "obj0_1\n";
-    else if(obj0_1.startsWith("#")) obj0_1.remove(0,1);
-    if(obj0_2.isEmpty()) errorMsg += "obj0_2\n";
-    else if(obj0_2.startsWith("#")) obj0_2.remove(0,1);
-    if(obj0_3.isEmpty()) errorMsg += "obj0_3\n";
-    else if(obj0_3.startsWith("#")) obj0_3.remove(0,1);
-    if(obj1_0.isEmpty()) errorMsg += "obj1_0\n";
-    else if(obj1_0.startsWith("#")) obj1_0.remove(0,1);
-    if(obj1_1.isEmpty()) errorMsg += "obj1_1\n";
-    else if(obj1_1.startsWith("#")) obj1_1.remove(0,1);
-    if(obj1_2.isEmpty()) errorMsg += "obj1_2\n";
-    else if(obj1_2.startsWith("#")) obj1_2.remove(0,1);
-    if(obj1_3.isEmpty()) errorMsg += "obj1_3\n";
-    else if(obj1_3.startsWith("#")) obj1_3.remove(0,1);
-    if(window_0.isEmpty()) errorMsg += "window_0\n";
-    else if(window_0.startsWith("#")) window_0.remove(0,1);
-    if(window_1.isEmpty()) errorMsg += "window_1\n";
-    else if(window_0.startsWith("#")) window_1.remove(0,1);
-    if(window_2.isEmpty()) errorMsg += "window_2\n";
-    else if(window_0.startsWith("#")) window_2.remove(0,1);
-    if(window_3.isEmpty()) errorMsg += "window_3\n";
-    else if(window_0.startsWith("#")) window_3.remove(0,1);
+    QString errorMsg;
+    if(this->isValidColorFormat(bg_0)) bg_0.remove(0,1);
+    else errorMsg += "\nbg_0";
+    if(this->isValidColorFormat(bg_1)) bg_1.remove(0,1);
+    else errorMsg += "\nbg_1";
+    if(this->isValidColorFormat(bg_2)) bg_2.remove(0,1);
+    else errorMsg += "\nbg_2";
+    if(this->isValidColorFormat(bg_3)) bg_3.remove(0,1);
+    else errorMsg += "\nbg_3";
+    if(this->isValidColorFormat(obj0_0)) obj0_0.remove(0,1);
+    else errorMsg += "\nobj0_0";
+    if(this->isValidColorFormat(obj0_1)) obj0_1.remove(0,1);
+    else errorMsg += "\nobj0_1";
+    if(this->isValidColorFormat(obj0_2)) obj0_2.remove(0,1);
+    else errorMsg += "\nobj0_2";
+    if(this->isValidColorFormat(obj0_3)) obj0_3.remove(0,1);
+    else errorMsg += "\nobj0_3";
+    if(this->isValidColorFormat(obj1_0)) obj1_0.remove(0,1);
+    else errorMsg += "\nobj1_0";
+    if(this->isValidColorFormat(obj1_1)) obj1_1.remove(0,1);
+    else errorMsg += "\nobj1_1";
+    if(this->isValidColorFormat(obj1_2)) obj1_2.remove(0,1);
+    else errorMsg += "\nobj1_2";
+    if(this->isValidColorFormat(obj1_3)) obj1_3.remove(0,1);
+    else errorMsg += "\nobj1_3";
+    if(this->isValidColorFormat(window_0)) window_0.remove(0,1);
+    else errorMsg += "\nwindow_0";
+    if(this->isValidColorFormat(window_1)) window_1.remove(0,1);
+    else errorMsg += "\nwindow_1";
+    if(this->isValidColorFormat(window_2)) window_2.remove(0,1);
+    else errorMsg += "\nwindow_2";
+    if(this->isValidColorFormat(window_3)) window_3.remove(0,1);
+    else errorMsg += "\nwindow_3";
 
     if(!errorMsg.isEmpty()){
-        errorMsg = "The following values are empty:\n" + errorMsg;
+        errorMsg = "The following values are malformed or empty (make sure to use a 24-bit hexadecimal color starting with \'#\'):" + errorMsg;
         QMessageBox::critical(this, "Data Error", errorMsg);
     }else{
-        string *bg = new string[4]{bg_0.toStdString(), bg_1.toStdString(), bg_2.toStdString(), bg_3.toStdString()};
-        string *obj0 = new string[4]{obj0_0.toStdString(),obj0_1.toStdString(),obj0_2.toStdString(),obj0_3.toStdString()};
-        string *obj1 = new string[4]{obj1_0.toStdString(),obj1_1.toStdString(),obj1_2.toStdString(),obj1_3.toStdString()};
-        string *window = new string[4]{window_0.toStdString(), window_1.toStdString(), window_2.toStdString(), window_3.toStdString()};
-        APGB_Palette p = this->fsave.getPalette(bg, obj0, obj1, window);
-
+        APGB_Palette p;
+        p.bg = new string[4]{bg_0.toStdString(), bg_1.toStdString(), bg_2.toStdString(), bg_3.toStdString()};
+        p.obj0 = new string[4]{obj0_0.toStdString(),obj0_1.toStdString(),obj0_2.toStdString(),obj0_3.toStdString()};
+        p.obj1 = new string[4]{obj1_0.toStdString(),obj1_1.toStdString(),obj1_2.toStdString(),obj1_3.toStdString()};
+        p.window = new string[4]{window_0.toStdString(), window_1.toStdString(), window_2.toStdString(), window_3.toStdString()};
         QString filename = QFileDialog::getSaveFileName(this, tr("Save GB Palette"), tr("*.pal"));
-        this->fsave.savePalette(filename.toStdString(), p);
+        this->fsave.savePalettes(filename.toStdString(), p);
+        delete[] p.bg;
+        delete[] p.obj0;
+        delete[] p.obj1;
+        delete[] p.window;
     }
  }
 
@@ -363,14 +358,12 @@ void MainWindow::on_btn_dot_matrix_clicked(bool checked){
     this->updateImageView(0);
 }
 
-void MainWindow::on_btn_convert_reset_clicked()
-{
+void MainWindow::on_btn_convert_reset_clicked(){
     ui->txt_convert_load->setText("");
     ui->txt_convert_save->setText("");
 }
 
-void MainWindow::on_btn_get_load_clicked()
-{
+void MainWindow::on_btn_source_clicked(){
     QString loadFilename = QFileDialog::getOpenFileName(this, tr("Load Palette"), tr(""));
     ui->txt_convert_load->setText(loadFilename);
     if(loadFilename.endsWith(".csv")) ui->r_csv->click();
@@ -379,18 +372,18 @@ void MainWindow::on_btn_get_load_clicked()
     }
     else if(loadFilename.endsWith(".gpl")) ui->r_gpl->click();
     else if(loadFilename.endsWith(".hex")) ui->r_hex_txt->click();
-    int extensionIdx = loadFilename.lastIndexOf(".");
-    ui->txt_convert_save->setText(loadFilename.left(extensionIdx) + "-apgb.pal");
+    if(!loadFilename.isEmpty()){
+        int extensionIdx = loadFilename.lastIndexOf(".");
+        ui->txt_convert_save->setText(loadFilename.left(extensionIdx) + "-apgb.pal");
+    }
 }
 
-void MainWindow::on_btn_get_save_clicked()
-{
+void MainWindow::on_btn_dest_clicked(){
     QString saveFilename = QFileDialog::getSaveFileName(this, tr("Save Palette"), tr(""));
     ui->txt_convert_save->setText(saveFilename);
 }
 
-void MainWindow::on_btn_convert_save_clicked()
-{
+void MainWindow::on_btn_convert_save_clicked(){
     APGB_Palette p;
     QString loadFile = ui->txt_convert_load->toPlainText();
     QString saveFile = ui->txt_convert_save->toPlainText();
@@ -413,10 +406,13 @@ void MainWindow::on_btn_convert_save_clicked()
         bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr &&
                                   p.obj1 != nullptr && p.window != nullptr;
         if(!saveFile.isEmpty() && paletteInitialized){
-            this->fsave.savePalette(saveFile.toStdString(), p);
-            ui->txt_convert_load->setText("");
-            ui->txt_convert_save->setText("");
+            this->fsave.savePalettes(saveFile.toStdString(), p);
+            this->on_btn_convert_reset_clicked();
             QMessageBox::information(this, " ", saveFile + " was successfully saved.");
+            delete[] p.bg;
+            delete[] p.obj0;
+            delete[] p.obj1;
+            delete[] p.window;
         }
         else if(!saveFile.isEmpty() && !paletteInitialized){
             QMessageBox::critical(this, "Format Error", "There was an error processing the file. Please make sure this file uses a supported file type.");
@@ -426,8 +422,7 @@ void MainWindow::on_btn_convert_save_clicked()
     else QMessageBox::critical(this, "File Error", "No source file was given.");
 }
 
-void MainWindow::on_btn_populate_all_clicked()
-{
+void MainWindow::on_btn_populate_all_clicked(){
     QString val0 = ui->txt_bg_0->toPlainText();
     QString val1 = ui->txt_bg_1->toPlainText();
     QString val2 = ui->txt_bg_2->toPlainText();

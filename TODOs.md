@@ -9,6 +9,7 @@ Future work for this project.
 ### Bug Fixes
 - When an incorrect color is given the color picker button still shows the previous color (during import)
 - Include error handling for files that could not be saved
+- Fix image view refresh ween decreasing window size after expansion
 
 ### Features
 - Make the application scale dynamically (along with the dynamic palette image viewer)
@@ -27,3 +28,6 @@ The tasks that have been completed for the next release are as follows:
 - Updated file importer to allow for 12 color palettes
 - Added import error handling & fixed issue with importing APGB files
 - Simplified graphical interface logic
+- Tweaked converter text area (removed scrollbars and wrapping)
+- Fixed issue where autocomplete occurred when not source file was given
+- Introduced dynamic scaling to application

@@ -191,6 +191,7 @@ void MainWindow::updateImageView(int direction = 0){
     QPixmap imgView = QPixmap::fromImage(*image).scaled(ui->view_img->width(),
                                                         ui->view_img->height(),
                                                         Qt::KeepAspectRatio);
+    this->scene->clear();
     this->scene->addPixmap(imgView);
 }
 

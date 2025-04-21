@@ -444,6 +444,9 @@
                 <height>0</height>
                </size>
               </property>
+              <property name="layoutDirection">
+               <enum>Qt::LayoutDirection::LeftToRight</enum>
+              </property>
               <property name="verticalScrollBarPolicy">
                <enum>Qt::ScrollBarPolicy::ScrollBarAlwaysOff</enum>
               </property>
@@ -460,6 +463,15 @@
                 <width>0.000000000000000</width>
                 <height>0.000000000000000</height>
                </rectf>
+              </property>
+              <property name="resizeAnchor">
+               <enum>QGraphicsView::ViewportAnchor::AnchorViewCenter</enum>
+              </property>
+              <property name="viewportUpdateMode">
+               <enum>QGraphicsView::ViewportUpdateMode::SmartViewportUpdate</enum>
+              </property>
+              <property name="rubberBandSelectionMode">
+               <enum>Qt::ItemSelectionMode::IntersectsItemBoundingRect</enum>
               </property>
              </widget>
             </item>

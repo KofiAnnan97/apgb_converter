@@ -4,10 +4,25 @@
 A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket.
 
 ## Overview
+- [Roadmap](#roadmap)
 - [Quick Start](#quick-start)
 - [Functionality](#functionality)
 - [Format](#format)
 - [Resources](#resources)
+
+## Roadmap
+- Bug Fixes
+    - [ ] When an incorrect color is given the color picker button still shows the previous color (during import)
+    - [ ] Include error handling for files that could not be saved
+    - [ ] Fix issue with image centering in image view
+    - [ ] Fix dot matrix checkboard pattern when scaling image
+- Features
+    - [ ] Dynamically scale image when window size is updating
+- Optimizations
+    - [ ] Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
+- Miscellaneous
+    - [ ] Upload more sample images for testing GB palettes dynamically
+    - [ ] Add an application icon
 
 ## Quick Start
 ### Pre-requistes

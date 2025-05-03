@@ -23,6 +23,8 @@ set(DYNAMIC_IMG_SOURCES
   graphics/image_view/test_matrix.lci
   graphics/image_view/links_awakening_01.lci
   graphics/image_view/links_awakening_02.lci
+  graphics/image_view/kirbys_dream_land_2_01.lci
+  graphics/image_view/tetris_01.lci
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

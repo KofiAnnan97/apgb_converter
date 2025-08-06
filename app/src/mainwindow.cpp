@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "./ui/ui_mainwindow.h"
+#include "../ui/ui_mainwindow.h"
 #include <string>
 #include <QGraphicsPixmapItem>
 #include <QStringList>
@@ -18,13 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->view_img->setScene(scene);
 
     // Initialize image (Find a more clever way of retrieving this file from a folder)
-    
+    QString imgDirPath;
     // Path when using QT Creator
-    /*QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
+    /*imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
                                          + ".." + QDir::separator() + ".." + QDir::separator()
                                          + "graphics" + QDir::separator() + "image_view");*/
     // Path when using CMake                                     
-    QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
+    imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
                                          + "graphics" + QDir::separator() + "image_view");
     if(!QDir(imgDirPath).exists()){
         QMessageBox::critical(this, "Image Error", "Could not find image_view/ directory.");

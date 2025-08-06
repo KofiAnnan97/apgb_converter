@@ -12,34 +12,32 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
 
-set(PROJECT_SOURCES
-    main.cpp
-    mainwindow.cpp
-    include/mainwindow.h
-    ui/mainwindow.ui
+set(APP_PATH "./app/")
+
+FILE(GLOB APP_CODE
+    ${APP_PATH}/src/*.cpp
+    ${APP_PATH}/include/*.h
 )
 
-set(DYNAMIC_IMG_SOURCES
-  graphics/image_view/test_matrix.lci
-  graphics/image_view/links_awakening_01.lci
-  graphics/image_view/links_awakening_02.lci
-  graphics/image_view/kirbys_dream_land_2_01.lci
-  graphics/image_view/tetris_01.lci
+include_directories(
+    ${APP_PATH}/include
+    ${APP_PATH}/src
+)
+
+FILE(GLOB APP_UI
+    ${APP_PATH}/ui/*.ui
+)
+
+FILE(GLOB DYNAMIC_IMG_SRC
+    graphics/image_view/*.lci
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(apgb_converter
         MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-        ${DOC_SOURCES}
-        ${DYNAMIC_IMG_SOURCES}
-        include/palettes.h
-        include/fileimporter.h
-        fileimporter.cpp
-        include/save.h
-        save.cpp
-        include/imageimporter.h
-        imageimporter.cpp
+        ${DYNAMIC_IMG_SRC}
+        ${APP_UI}
+        ${APP_CODE}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET apgb_converter APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

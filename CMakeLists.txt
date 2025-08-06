@@ -38,6 +38,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${DYNAMIC_IMG_SRC}
         ${APP_UI}
         ${APP_CODE}
+        ${APP_ICON_LINUX}
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET apgb_converter APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -46,13 +47,19 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 else()
     if(ANDROID)
         add_library(apgb_converter SHARED
-            ${PROJECT_SOURCES}
+            #${PROJECT_SOURCES}
+            ${DYNAMIC_IMG_SRC}
+            ${APP_UI}
+            ${APP_CODE}
         )
 # Define properties for Android with Qt 5 after find_package() calls as:
 #    set(ANDROID_PACKAGE_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/android")
     else()
         add_executable(apgb_converter
-            ${PROJECT_SOURCES}
+            #${PROJECT_SOURCES}
+            ${DYNAMIC_IMG_SRC}
+            ${APP_UI}
+            ${APP_CODE}
         )
     endif()
 endif()

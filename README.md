@@ -19,22 +19,22 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
 - Features
     - [ ] Dynamically scale image when window size is updating
 - Optimizations
-    - [ ] Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
+    - [X] Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
 - Miscellaneous
-    - [ ] Upload more sample images for testing GB palettes dynamically
+    - [X] Upload more sample images for testing GB palettes dynamically
     - [ ] Add an application icon
 
 ## Quick Start
 ### Pre-requistes
 - C++17 or higher
-- QT6 (and supported qmake)
+- QT6
 
 ### Build and Run
 ##### Option 1: QT Creator
 1. Open project through interface
-2. Build project
-3. Navigate to executable from `build/` directory 
-4. Run application executable
+2. Navigate to Project Settings > Project Environment
+    1. Add APGB_IMG_VIEW_PATH variable with image_view/ path  
+3. Build and run application
 ##### Option 2: Command Line
 1. Open the directory for this project.
 2. Configure QT and Qmake
@@ -44,11 +44,12 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
     export QTDIR=/path/to/Qt/<version>/gcc_64
     ```
 3. Build Project
-     ```
-    cmake -project 
-    make
+    ```bash
+    chmod +x setup.sh
+    ./setup.sh
+    source ~/.bashrc
     ```
-3. Run application executable
+4. Run application executable
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a graphical interface.

@@ -3,6 +3,9 @@
 #include <string>
 #include <QGraphicsPixmapItem>
 #include <QStringList>
+#include <iostream>
+#include <QByteArray> 
+#include <QtGlobal> 
 
 using namespace std;
 
@@ -17,16 +20,11 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new QGraphicsScene(this);
     ui->view_img->setScene(scene);
 
-    // Initialize image (Find a more clever way of retrieving this file from a folder)
-    QString imgDirPath;
-    // Path when using QT Creator
-    /*imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
-                                         + ".." + QDir::separator() + ".." + QDir::separator()
-                                         + "graphics" + QDir::separator() + "image_view");*/
-    // Path when using CMake                                     
-    imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
-                                         + "graphics" + QDir::separator() + "image_view");
-    if(!QDir(imgDirPath).exists()){
+    // Initialize image
+    auto viewPath = QString::fromLocal8Bit(qgetenv("APGB_IMG_VIEW_PATH"));
+    QString imgDirPath = QDir::cleanPath(viewPath);
+    //qDebug() << "Image path:" << viewPath;
+    if(viewPath.isEmpty() || !QDir(imgDirPath).exists()){
         QMessageBox::critical(this, "Image Error", "Could not find image_view/ directory.");
     }
     this->imgImporter.setImgDirectory(imgDirPath);

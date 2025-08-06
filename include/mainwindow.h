@@ -66,17 +66,27 @@ private slots:
     void on_btn_source_clicked();
     void on_btn_dest_clicked();
     void on_btn_convert_save_clicked();
+    void on_co_bx_format_currentTextChanged(const QString &format_name);
 
     // Image Viewer Filters
     void on_btn_dot_matrix_clicked(bool checked);
 
     // Populate intensities based on BG
-    void on_btn_populate_all_clicked();
+    void on_btn_populate_all_clicked();    
 
 private:
+    void updateImageScene();
+
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     QImage *image;
     bool image_initialized = false;
+    QString convert_format;
+
+    // Constants
+    const QString csv_id = "CSV";
+    const QString jasc_id = "PAL (JASC)";
+    const QString gpl_id = "GIMP GPL V2";
+    const QString hex_id = "HEX (Text)";
 };
 #endif // MAINWINDOW_H

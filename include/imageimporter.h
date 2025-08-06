@@ -2,7 +2,6 @@
 #define IMAGEIMPORTER_H
 
 #include <QGraphicsView>
-#include <QDebug>
 #include <QString>
 #include <vector>
 #include <QDir>

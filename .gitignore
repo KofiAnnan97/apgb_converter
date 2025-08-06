@@ -82,4 +82,11 @@ CMakeLists.txt.user*
 /build*/
 
 # Deployment
-*.pro
+apgb_converter_autogen/
+.qt/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+
+# Executables
+apgb_converter

@@ -45,8 +45,7 @@ A tool designed to provide a convenient way of creating custom GB palettes for t
     ```
 3. Build Project
      ```
-    qmake -project 
-    qmake
+    cmake -project 
     make
     ```
 3. Run application executable

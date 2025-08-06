@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui/ui_mainwindow.h"
 #include <string>
+#include <QGraphicsPixmapItem>
+#include <QStringList>
 
 using namespace std;
 
@@ -16,8 +18,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->view_img->setScene(scene);
 
     // Initialize image (Find a more clever way of retrieving this file from a folder)
-    QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
+    
+    // Path when using QT Creator
+    /*QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
                                          + ".." + QDir::separator() + ".." + QDir::separator()
+                                         + "graphics" + QDir::separator() + "image_view");*/
+    // Path when using CMake                                     
+    QString imgDirPath = QDir::cleanPath(QCoreApplication::applicationDirPath() + QDir::separator()
                                          + "graphics" + QDir::separator() + "image_view");
     if(!QDir(imgDirPath).exists()){
         QMessageBox::critical(this, "Image Error", "Could not find image_view/ directory.");
@@ -32,16 +39,48 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Initialize editor hexadecimal values
     this->initializeEditorValues();
+
+    // Initialize format combo box
+    QStringList format_lst = {csv_id, jasc_id, gpl_id, hex_id};
+    ui->co_bx_format->addItems(format_lst);
 }
 
 MainWindow::~MainWindow(){
     delete ui;
 }
 
+void MainWindow::updateImageScene(){
+    QPixmap imgView = QPixmap::fromImage(*image).scaled(ui->view_img->width(),
+                                                        ui->view_img->height(),
+                                                        Qt::KeepAspectRatio);
+    this->scene->clear();
+    this->scene->addPixmap(imgView);
+    auto width_diff = ui->view_img->width() - this->scene->width();
+    auto height_diff = ui->view_img->height() - this->scene->height();
+    //ui->view_img->
+    //this->scene->setSceneRect(0, 0, ui->view_img->width(), ui->view_img->height());
+    //ui->view_img->mapToScene(ui->view_img->viewport()->rect().center());
+    //ui->view_img->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+    //this->scene->setSceneRect(QRect(0, 0, ui->view_img->width(), ui->view_img->height()));
+    //ui->view_img->fitInView(this->scene->sceneRect(), Qt::KeepAspectRatio);
+    //ui->view_img->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    //ui->view_img->update();
+
+    //auto item = new QGraphicsPixmapItem(imgView);
+
+    //item->setPos(width_diff/2, height_diff/2);
+    //item->setTransformOriginPoint(image->rect().center());
+    //this->scene->addItem(item);
+}
+
 void MainWindow::initializeUIConnects(){
     // Set traversal buttons for image viewer
     connect(ui->btn_img_next, &QPushButton::clicked, this, [=](){updateImageView(1);});
     connect(ui->btn_img_prev, &QPushButton::clicked, this, [=](){updateImageView(-1);});
+
+    /*connect(this->scene, &QGraphicsScene::changed, this, [=](){
+        this->updateImageScene();
+    });*/
 
     // Set button action for bringing up color picker
     connect(ui->btn_bg_0, &QPushButton::clicked, this, [=](){pickColor(ui->txt_bg_0);});
@@ -188,11 +227,12 @@ vector<QString> MainWindow::getChosenPalettes(){
 void MainWindow::updateImageView(int direction = 0){
     vector<QString> temp = this->getChosenPalettes();
     this->imgImporter.changeFile(direction, image, temp);
-    QPixmap imgView = QPixmap::fromImage(*image).scaled(ui->view_img->width(),
-                                                        ui->view_img->height(),
-                                                        Qt::KeepAspectRatio);
-    this->scene->clear();
-    this->scene->addPixmap(imgView);
+    this->updateImageScene();
+}
+
+bool MainWindow::isValidColorFormat(QString cStr){
+    return !cStr.isEmpty() && cStr.size() == 7 &&
+           cStr.startsWith("#") && QColor(cStr).isValid();
 }
 
 void MainWindow::pickColor(QTextEdit *te){
@@ -207,7 +247,7 @@ void MainWindow::pickColor(QTextEdit *te){
 void MainWindow::updateBtnColorFromText(QPushButton *pb, QTextEdit *te){
     QString colorData = te->toPlainText();
     QString colorStyle = "QPushButton { background-color : " + colorData + "}";
-    if(QColor(colorData).isValid()) pb->setStyleSheet(colorStyle);
+    if(this->isValidColorFormat(colorData)) pb->setStyleSheet(colorStyle);
     if(this->image_initialized == true) this->updateImageView(0);
 }
 
@@ -267,11 +307,6 @@ void MainWindow::on_btn_import_clicked(){
         delete[] p.obj1;
         delete[] p.window;
     }
-}
-
-bool MainWindow::isValidColorFormat(QString cStr){
-    return !cStr.isEmpty() && cStr.size() == 7 &&
-           cStr.startsWith("#") && QColor(cStr).isValid();
 }
 
 void MainWindow::on_btn_save_clicked(){
@@ -364,15 +399,13 @@ void MainWindow::on_btn_convert_reset_clicked(){
     ui->txt_convert_save->setText("");
 }
 
+void MainWindow::on_co_bx_format_currentTextChanged(const QString &format_name){
+    convert_format = format_name;
+}
+
 void MainWindow::on_btn_source_clicked(){
     QString loadFilename = QFileDialog::getOpenFileName(this, tr("Load Palette"), tr(""));
     ui->txt_convert_load->setText(loadFilename);
-    if(loadFilename.endsWith(".csv")) ui->r_csv->click();
-    else if(loadFilename.endsWith(".pal") && this->fImporter.isJASCFormat(loadFilename.toStdString())){
-        ui->r_jasc->click();
-    }
-    else if(loadFilename.endsWith(".gpl")) ui->r_gpl->click();
-    else if(loadFilename.endsWith(".hex")) ui->r_hex_txt->click();
     if(!loadFilename.isEmpty()){
         int extensionIdx = loadFilename.lastIndexOf(".");
         ui->txt_convert_save->setText(loadFilename.left(extensionIdx) + "-apgb.pal");
@@ -391,18 +424,14 @@ void MainWindow::on_btn_convert_save_clicked(){
 
     string lFn = loadFile.toStdString();
     if(!loadFile.isEmpty()){
-        if(ui->r_csv->isChecked() && loadFile.endsWith(".csv")){
+        if(convert_format == csv_id && loadFile.endsWith(".csv"))
             p = this->fImporter.importPalettesFromCSV(lFn);
-        }
-        else if(ui->r_jasc->isChecked() && this->fImporter.isJASCFormat(lFn)){
+        else if(convert_format == jasc_id && this->fImporter.isJASCFormat(lFn))
             p = this->fImporter.importPalettesJASC(lFn);
-        }
-        else if(ui->r_gpl->isChecked() && loadFile.endsWith(".gpl")){
+        else if(convert_format == gpl_id && loadFile.endsWith(".gpl"))
             p = this->fImporter.importPalettesGPLv2(lFn);
-        }
-        else if(ui->r_hex_txt->isChecked() && loadFile.endsWith(".hex")){
+        else if(convert_format == hex_id && loadFile.endsWith(".hex"))
             p = this->fImporter.importPalettesHEXTxt(lFn);
-        }
 
         bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr &&
                                   p.obj1 != nullptr && p.window != nullptr;
@@ -416,7 +445,7 @@ void MainWindow::on_btn_convert_save_clicked(){
             delete[] p.window;
         }
         else if(!saveFile.isEmpty() && !paletteInitialized){
-            QMessageBox::critical(this, "Format Error", "There was an error processing the file. Please make sure this file uses a supported file type.");
+            QMessageBox::critical(this, "Processing Error", "There was an error processing the file. Please make sure to use a support file type and and match the format correctly.");
         }
         else QMessageBox::critical(this, "File Error", "No destination file was given.");
     }
@@ -428,8 +457,8 @@ void MainWindow::on_btn_populate_all_clicked(){
     QString val1 = ui->txt_bg_1->toPlainText();
     QString val2 = ui->txt_bg_2->toPlainText();
     QString val3 = ui->txt_bg_3->toPlainText();
-    if(QColor(val0).isValid() && QColor(val1).isValid() &&
-       QColor(val2).isValid() && QColor(val3).isValid()){
+    if(this->isValidColorFormat(val0) && this->isValidColorFormat(val1) &&
+       this->isValidColorFormat(val2) && this->isValidColorFormat(val3)){
         ui->txt_obj0_0->setText(val0);
         ui->txt_obj0_1->setText(val1);
         ui->txt_obj0_2->setText(val2);
@@ -443,5 +472,5 @@ void MainWindow::on_btn_populate_all_clicked(){
         ui->txt_window_2->setText(val2);
         ui->txt_window_3->setText(val3);
     }
-    else QMessageBox::critical(this, "Populate All Error", "Make sure all intensities for BG are correct");
+    else QMessageBox::critical(this, "Populate All Error", "Make sure all intensities for BG are valid and correclty formatted (i.e. #FFFFFF, #ffffff).");
 }

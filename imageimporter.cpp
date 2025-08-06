@@ -1,4 +1,5 @@
 #include <fstream>
+#include <iostream>
 
 #include "imageimporter.h"
 
@@ -85,12 +86,14 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
             }
         }
         while(row > 0 && row < this->height){
-            qDebug() << "Entered";
             for(int j = 0; j < this->width-1; j+=step){
                 image->setPixelColor(j, row, emptyColor);
             }
             row +=step;
         }
     }
-    else qDebug() << "Could not find file: " + filename;
+    else {
+        cout << "Could not find file:" + filename << endl;
+        //qDebug() << "Could not find file: " + filename;
+    }
 }

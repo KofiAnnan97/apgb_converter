@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(apgb_converter VERSION 0.1 LANGUAGES CXX)
+project(apgb_converter VERSION 0.3 LANGUAGES CXX)
 
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(QT NAMES Qt6 REQUIRED COMPONENTS Core Gui Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets)
 
-set(APP_PATH "./app/")
+set(APP_PATH "./app")
 
 FILE(GLOB APP_CODE
     ${APP_PATH}/src/*.cpp
@@ -25,11 +25,11 @@ include_directories(
 )
 
 FILE(GLOB APP_UI
-    ${APP_PATH}/ui/*.ui
+    ${APP_PATH}/*.ui
 )
 
 FILE(GLOB DYNAMIC_IMG_SRC
-    graphics/image_view/*.lci
+    ${APP_PATH}/graphics/image_view/*.lci
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -38,7 +38,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         ${DYNAMIC_IMG_SRC}
         ${APP_UI}
         ${APP_CODE}
-        ${APP_ICON_LINUX}
+        ${APP_PATH}/icons.qrc
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET apgb_converter APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -47,7 +47,6 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
 else()
     if(ANDROID)
         add_library(apgb_converter SHARED
-            #${PROJECT_SOURCES}
             ${DYNAMIC_IMG_SRC}
             ${APP_UI}
             ${APP_CODE}

@@ -1,7 +1,7 @@
 *** **Disclaimer: The colors from this tool will be close but not fully representative of what the Analogue Pocket will show.** ***
 
 # APGB Converter
-A tool designed to provide a convenient way of creating custom GB palettes for the Analogue Pocket.
+A tool designed to provide a convenient way of creating custom GameBoy palettes for the Analogue Pocket.
 
 ## Overview
 - [Roadmap](#roadmap)

@@ -11,7 +11,7 @@ APP_PROFILE=$PROFILE_DIR$APP_NAME.sh
 if [ ! -f $APP_PROFILE ]; then
     echo "Creating new app profile: $APP_PROFILE" 
     touch $APP_PROFILE
-    echo -e "export APGB_IMG_VIEW_PATH=$SCRIPT_DIR/graphics/image_view" >> $APP_PROFILE
+    echo -e "export APGB_IMG_VIEW_PATH=$SCRIPT_DIR/app/graphics/image_view" >> $APP_PROFILE
 fi
 
 # Check if enivornment variable exists for dynamic image files

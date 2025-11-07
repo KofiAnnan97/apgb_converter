@@ -82,11 +82,5 @@ private:
     QImage *image;
     bool image_initialized = false;
     QString convert_format;
-
-    // Constants
-    const QString csv_id = "CSV";
-    const QString jasc_id = "PAL (JASC)";
-    const QString gpl_id = "GIMP GPL V2";
-    const QString hex_id = "HEX (Text)";
 };
 #endif // MAINWINDOW_H

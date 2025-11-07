@@ -2,11 +2,9 @@
 #include <fstream>
 
 #include "save.h"
+#include "constants.h"
 
-FileSave::FileSave() {
-    footer = "8141504742";
-    lcdOff = "FFFFFF";
-}
+FileSave::FileSave() {}
 
 int* FileSave::fromStrToHexStrArr(string str, int numOfBytes){
     int *hexArr = new int[numOfBytes];
@@ -62,7 +60,7 @@ char* FileSave::APGBFormat(APGB_Palette p, int size){
         }
         data += p.window[g];
     }
-    data += this->lcdOff + this->footer;
+    data += APGBKeywords::LCDOFF + APGBKeywords::FOOTER;
     //qDebug() << "Buffer:" << data;
 
     int *temp = fromStrToHexStrArr(data, size);

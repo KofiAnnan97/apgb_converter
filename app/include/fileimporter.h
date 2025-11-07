@@ -29,10 +29,6 @@ public:
     APGB_Palette importPalettesJASC(string filename);
     APGB_Palette importPalettesGPLv2(string filename);
     APGB_Palette importPalettesHEXTxt(string filename);
-
-
-    // Variables
-    QString black, dark, light, white;
 };
 
 #endif // FILEIMPORTER_H

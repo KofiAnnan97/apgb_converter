@@ -4,25 +4,11 @@
 A tool designed to provide a convenient way of creating custom GameBoy palettes for the Analogue Pocket.
 
 ## Overview
-- [Roadmap](#roadmap)
+- [Roadmap](./Roadmap.md)
 - [Quick Start](#quick-start)
 - [Functionality](#functionality)
 - [Format](#format)
 - [Resources](#resources)
-
-## Roadmap
-- Bug Fixes
-    - [ ] When an incorrect color is given the color picker button still shows the previous color (during import)
-    - [ ] Include error handling for files that could not be saved
-    - [ ] Fix issue with image centering in image view
-    - [ ] Fix dot matrix checkboard pattern when scaling image
-- Features
-    - [ ] Dynamically scale image when window size is updating
-- Optimizations
-    - [X] Find a more dynamic solution for finding the`image_view/` directory for the dynamic palette image viewer
-- Miscellaneous
-    - [X] Upload more sample images for testing GB palettes dynamically
-    - [ ] Add an application icon
 
 ## Quick Start
 ### Pre-requistes
@@ -53,7 +39,7 @@ A tool designed to provide a convenient way of creating custom GameBoy palettes 
 
 ## Functionality
 - **Editor** := Create a pal file (hex-based) for Analogue Pocket using a graphical interface.
-![](/graphics/visual/editor.png)
+![](/resources/visual/editor.png)
     - The dynamic palette image window provides a preview or visual representation of how each palette and their intensities affect the overall look.
     - If you would like to include more test images please use this [script](https://github.com/KofiAnnan97/quick_scripts/tree/master/Recreation/limited_color_img_format) to encode your image into a suitable format (with the `.lci` extension). 
 
@@ -83,7 +69,7 @@ A tool designed to provide a convenient way of creating custom GameBoy palettes 
         - only supports 4, 8, 12, or 16 colors
 
 - **Convert** := For simple conversions that do not require changes to the colors used.
-![](/graphics/visual/convert.png)
+![](/resources/visual/convert.png)
 
 ## Format
 - 56 bytes

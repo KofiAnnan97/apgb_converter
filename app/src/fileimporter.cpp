@@ -2,16 +2,13 @@
 #include <sstream>
 
 #include "fileimporter.h"
+#include "constants.h"
 
-FileImporter::FileImporter() {
-    black = "#000000";
-    dark = "#1a1a1a";
-    light = "#828483";
-    white = "#FFFFFF";
-}
+FileImporter::FileImporter() {}
 
 bool FileImporter::isKeyword(string word){
-    vector<string> keywords = {"BG", "OBJ0", "OBJ1", "WINDOW", "bg", "obj0", "obj1", "window"};
+    vector<string> keywords = {APGBKeywords::BG, APGBKeywords::OBJ0, APGBKeywords::OBJ1, APGBKeywords::WINDOW,
+                               APGBKeywords::bg, APGBKeywords::obj0, APGBKeywords::obj1, APGBKeywords::window};
     for(int i = 0; i < keywords.size(); i++){
         if(word == keywords[i]) return true;
     }
@@ -179,10 +176,14 @@ APGB_Palette FileImporter::importPalettesFromCSV(string filename){
             }
             string *pt;
             auto pType = row[0].c_str();
-            if(strcmp(pType , "BG") == 0 || strcmp(pType ,"bg") == 0)              pt = ap.bg;
-            else if(strcmp(pType , "OBJ0") == 0 || strcmp(pType ,"obj0") == 0)     pt = ap.obj0;
-            else if(strcmp(pType , "OBJ1") == 0 || strcmp(pType ,"obj1") == 0)     pt = ap.obj1;
-            else if(strcmp(pType , "WINDOW") == 0 || strcmp(pType ,"window") == 0) pt = ap.window;
+            if(strcmp(pType, APGBKeywords::BG.c_str()) == 0 || strcmp(pType, APGBKeywords::bg.c_str()) == 0)
+                pt = ap.bg;
+            else if(strcmp(pType, APGBKeywords::OBJ0.c_str()) == 0 || strcmp(pType, APGBKeywords::obj0.c_str()) == 0)
+                pt = ap.obj0;
+            else if(strcmp(pType , APGBKeywords::OBJ1.c_str()) == 0 || strcmp(pType ,APGBKeywords::obj1.c_str()) == 0)
+                pt = ap.obj1;
+            else if(strcmp(pType , APGBKeywords::WINDOW.c_str()) == 0 || strcmp(pType ,APGBKeywords::window.c_str()) == 0)
+                pt = ap.window;
             pt[0] = row[1];
             pt[1] = row[2];
             pt[2] = row[3];

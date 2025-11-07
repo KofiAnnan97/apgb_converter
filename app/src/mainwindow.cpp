@@ -1,11 +1,14 @@
-#include "mainwindow.h"
-#include "../ui_mainwindow.h"
 #include <string>
+#include <iostream>
+
 #include <QGraphicsPixmapItem>
 #include <QStringList>
-#include <iostream>
-#include <QByteArray> 
-#include <QtGlobal> 
+#include <QByteArray>
+#include <QtGlobal>
+
+#include "mainwindow.h"
+#include "../ui_mainwindow.h"
+#include "constants.h"
 
 using namespace std;
 
@@ -39,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     this->initializeEditorValues();
 
     // Initialize format combo box
-    QStringList format_lst = {csv_id, jasc_id, gpl_id, hex_id};
+    QStringList format_lst = {ImportTypes::CSV_ID, ImportTypes::JASC_ID,
+                              ImportTypes::GPL_ID, ImportTypes::HEX_ID};
     ui->co_bx_format->addItems(format_lst);
 }
 
@@ -183,22 +187,22 @@ void MainWindow::initializeUIConnects(){
 }
 
 void MainWindow::initializeEditorValues(){
-    ui->txt_bg_0->setText(fImporter.black);
-    ui->txt_bg_1->setText(fImporter.dark);
-    ui->txt_bg_2->setText(fImporter.light);
-    ui->txt_bg_3->setText(fImporter.white);
-    ui->txt_obj0_0->setText(fImporter.black);
-    ui->txt_obj0_1->setText(fImporter.dark);
-    ui->txt_obj0_2->setText(fImporter.light);
-    ui->txt_obj0_3->setText(fImporter.white);
-    ui->txt_obj1_0->setText(fImporter.black);
-    ui->txt_obj1_1->setText(fImporter.dark);
-    ui->txt_obj1_2->setText(fImporter.light);
-    ui->txt_obj1_3->setText(fImporter.white);
-    ui->txt_window_0->setText(fImporter.black);
-    ui->txt_window_1->setText(fImporter.dark);
-    ui->txt_window_2->setText(fImporter.light);
-    ui->txt_window_3->setText(fImporter.white);
+    ui->txt_bg_0->setText(HexColors::BLACK);
+    ui->txt_bg_1->setText(HexColors::DARK_GRAY);
+    ui->txt_bg_2->setText(HexColors::LIGHT_GRAY);
+    ui->txt_bg_3->setText(HexColors::WHITE);
+    ui->txt_obj0_0->setText(HexColors::BLACK);
+    ui->txt_obj0_1->setText(HexColors::DARK_GRAY);
+    ui->txt_obj0_2->setText(HexColors::LIGHT_GRAY);
+    ui->txt_obj0_3->setText(HexColors::WHITE);
+    ui->txt_obj1_0->setText(HexColors::BLACK);
+    ui->txt_obj1_1->setText(HexColors::DARK_GRAY);
+    ui->txt_obj1_2->setText(HexColors::LIGHT_GRAY);
+    ui->txt_obj1_3->setText(HexColors::WHITE);
+    ui->txt_window_0->setText(HexColors::BLACK);
+    ui->txt_window_1->setText(HexColors::DARK_GRAY);
+    ui->txt_window_2->setText(HexColors::LIGHT_GRAY);
+    ui->txt_window_3->setText(HexColors::WHITE);
 }
 
 vector<QString> MainWindow::getChosenPalettes(){
@@ -422,13 +426,13 @@ void MainWindow::on_btn_convert_save_clicked(){
 
     string lFn = loadFile.toStdString();
     if(!loadFile.isEmpty()){
-        if(convert_format == csv_id && loadFile.endsWith(".csv"))
+        if(convert_format == ImportTypes::CSV_ID && loadFile.endsWith(".csv"))
             p = this->fImporter.importPalettesFromCSV(lFn);
-        else if(convert_format == jasc_id && this->fImporter.isJASCFormat(lFn))
+        else if(convert_format == ImportTypes::JASC_ID && this->fImporter.isJASCFormat(lFn))
             p = this->fImporter.importPalettesJASC(lFn);
-        else if(convert_format == gpl_id && loadFile.endsWith(".gpl"))
+        else if(convert_format == ImportTypes::GPL_ID && loadFile.endsWith(".gpl"))
             p = this->fImporter.importPalettesGPLv2(lFn);
-        else if(convert_format == hex_id && loadFile.endsWith(".hex"))
+        else if(convert_format == ImportTypes::HEX_ID && loadFile.endsWith(".hex"))
             p = this->fImporter.importPalettesHEXTxt(lFn);
 
         bool paletteInitialized = p.bg != nullptr && p.obj0 != nullptr &&

@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "imageimporter.h"
+#include "constants.h"
 
 ImageImporter::ImageImporter() {
     width  = 160;  // GameBoy screen width:  160
@@ -28,7 +29,7 @@ vector<QColor> ImageImporter::setImageColors(vector<QString> hexColorIdx){
     for(int i = 0; i < hexColorIdx.size(); i++){
         QString hexColor = hexColorIdx[i];
         if(QColor(hexColor).isValid()) temp.push_back(QColor(hexColor));
-        else temp.push_back(emptyColor);
+        else temp.push_back(Color::EMPTY_COLOR);
     }
     return temp;
 }
@@ -41,7 +42,7 @@ int ImageImporter::getIdxFromHexChar(char hexChar){
 }
 
 void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QString> palettes){
-    image->fill(emptyColor);
+    image->fill(Color::EMPTY_COLOR);
     fstream decode;
     int row = 0;
     int col = 0;
@@ -65,7 +66,7 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
             else if(row >= this->height) break;
             else if(line.empty()){
                 for(int i = 0; i < this->width-1; i+=step){
-                    image->setPixelColor(i, row, emptyColor);
+                    image->setPixelColor(i, row, Color::EMPTY_COLOR);
                 }
                 row++;
             }
@@ -77,7 +78,7 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
                         image->setPixelColor(col, row, colorIdxs[hexIdx]);
                     }
                     else{
-                        image->setPixelColor(col, row, emptyColor);
+                        image->setPixelColor(col, row, Color::EMPTY_COLOR);
                     }
                     col+=step;
                 }
@@ -87,7 +88,7 @@ void ImageImporter::decodeImageTxt(string filename, QImage *image, vector<QStrin
         }
         while(row > 0 && row < this->height){
             for(int j = 0; j < this->width-1; j+=step){
-                image->setPixelColor(j, row, emptyColor);
+                image->setPixelColor(j, row, Color::EMPTY_COLOR);
             }
             row +=step;
         }

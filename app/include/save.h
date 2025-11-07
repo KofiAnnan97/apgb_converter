@@ -2,14 +2,14 @@
 #define SAVE_H
 
 #include <string>
+
 #include <QDebug>
 
 #include "palettes.h"
 
 using namespace std;
 
-class FileSave
-{
+class FileSave{
 public:
     FileSave();
 
@@ -20,9 +20,6 @@ public:
     // Save functions
     char* APGBFormat(APGB_Palette p, int size);
     void savePalettes(string filename, APGB_Palette p);
-
-    // Variables
-    string footer, lcdOff;
 };
 
 #endif // SAVE_H

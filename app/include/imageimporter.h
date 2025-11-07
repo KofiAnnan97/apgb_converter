@@ -2,8 +2,9 @@
 #define IMAGEIMPORTER_H
 
 #include <QGraphicsView>
-#include <QString>
 #include <vector>
+
+#include <QString>
 #include <QDir>
 #include <QImage>
 #include <QColor>
@@ -26,7 +27,6 @@ public:
 
     int width, height, step, fileIdx;
     QDir imgDir;
-    QColor emptyColor = Qt::black;
 };
 
 #endif // IMAGEIMPORTER_H

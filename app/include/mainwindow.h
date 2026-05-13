@@ -56,6 +56,10 @@ public slots:
     void updateBtnColorFromText(QPushButton *pb, QTextEdit *te);
     void flipTextEntries(std::vector<QTextEdit *> vte);
 
+protected:
+    void resizeEvent(QResizeEvent *event) override;
+    void showEvent(QShowEvent *event) override;
+
 private slots:
     // Editor tab
     void on_btn_import_clicked();

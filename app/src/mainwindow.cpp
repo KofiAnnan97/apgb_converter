@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Set up image viewer
     scene = new QGraphicsScene(this);
     ui->view_img->setScene(scene);
+    ui->view_img->setAlignment(Qt::AlignCenter);
 
     // Initialize image
     auto viewPath = QString::fromLocal8Bit(qgetenv("APGB_IMG_VIEW_PATH"));
@@ -51,38 +52,33 @@ MainWindow::~MainWindow(){
     delete ui;
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event){
+    QMainWindow::resizeEvent(event);
+    if(image_initialized) updateImageScene();
+}
+
+void MainWindow::showEvent(QShowEvent *event){
+    QMainWindow::showEvent(event);
+    if(image_initialized) updateImageScene();
+}
+
 void MainWindow::updateImageScene(){
-    QPixmap imgView = QPixmap::fromImage(*image).scaled(ui->view_img->width(),
-                                                        ui->view_img->height(),
-                                                        Qt::KeepAspectRatio);
+    if(!image || image->isNull()) return;
+    
+    QPixmap imgView = QPixmap::fromImage(*image);
     this->scene->clear();
     this->scene->addPixmap(imgView);
-    auto width_diff = ui->view_img->width() - this->scene->width();
-    auto height_diff = ui->view_img->height() - this->scene->height();
-    //ui->view_img->
-    //this->scene->setSceneRect(0, 0, ui->view_img->width(), ui->view_img->height());
-    //ui->view_img->mapToScene(ui->view_img->viewport()->rect().center());
-    //ui->view_img->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
-    //this->scene->setSceneRect(QRect(0, 0, ui->view_img->width(), ui->view_img->height()));
-    //ui->view_img->fitInView(this->scene->sceneRect(), Qt::KeepAspectRatio);
-    //ui->view_img->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    //ui->view_img->update();
-
-    //auto item = new QGraphicsPixmapItem(imgView);
-
-    //item->setPos(width_diff/2, height_diff/2);
-    //item->setTransformOriginPoint(image->rect().center());
-    //this->scene->addItem(item);
+    this->scene->setSceneRect(imgView.rect());
+    
+    // Fit the image to the view while maintaining aspect ratio and centering
+    ui->view_img->fitInView(this->scene->sceneRect(), Qt::KeepAspectRatio);
+    ui->view_img->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
 }
 
 void MainWindow::initializeUIConnects(){
     // Set traversal buttons for image viewer
     connect(ui->btn_img_next, &QPushButton::clicked, this, [=](){updateImageView(1);});
     connect(ui->btn_img_prev, &QPushButton::clicked, this, [=](){updateImageView(-1);});
-
-    /*connect(this->scene, &QGraphicsScene::changed, this, [=](){
-        this->updateImageScene();
-    });*/
 
     // Set button action for bringing up color picker
     connect(ui->btn_bg_0, &QPushButton::clicked, this, [=](){pickColor(ui->txt_bg_0);});
